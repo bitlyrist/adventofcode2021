@@ -30,7 +30,6 @@ for ($i = 0; $i < $days; $i++) {
   $fishes[6] += $newfish;
   $fish_count += $newfish;
 }
-printf("Day %d: %s\n", ($i + 1), implode(',', $fishes));
 printf("There are %d fish\n", $fish_count);
 
 
