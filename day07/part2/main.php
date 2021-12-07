@@ -1,36 +1,26 @@
 <?php
 
-function read_from_stdin(&$numbers) {
+function read_from_stdin() {
   $numbers = explode(',', fscanf(STDIN, "%s\n")[0]);
   return $numbers;
 }
 
-
-$fish_count = 0;
-$fishes = array();
-for ($i=0; $i < 9; $i++) {
-  $fishes[$i] = 0;
-}
-
 // Read all the contents from the line (assuming our alzheimers isn't acting up)
-read_from_stdin($start);
-foreach ($start as $i) {
-  $fishes[intval($i)]++;
-  $fish_count++;
-}
+$crabs = read_from_stdin();
 
-$days = 256;
-for ($i = 0; $i < $days; $i++) {
-  $newfish = $fishes[0];
-  for ($f = 1; $f < 9; $f++) {
-    $fishes[$f-1] = $fishes[$f];
-    $fishes[$f] = 0;
+$movediffs = array();
+$min = min($crabs);
+$max = max($crabs);
+foreach ($crabs as $crabidx => $crab) {
+  for ($i = $min; $i < $max; $i++) {
+    $movediffs[$i][$crabidx] = (abs($crab - $i) * abs($crab - $i) + abs($crab - $i)) / 2;
   }
-  $fishes[8] = $newfish;
-  $fishes[6] += $newfish;
-  $fish_count += $newfish;
 }
-printf("There are %d fish\n", $fish_count);
 
+$minfuel = PHP_INT_MAX;
+for ($i = $min; $i < $max; $i++) {
+  $diff = array_sum($movediffs[$i]);
+  $minfuel = ( $diff < $minfuel) ? $diff : $minfuel ;
+}
 
-
+printf("Minimum fuel usage is: %d\n", $minfuel);
