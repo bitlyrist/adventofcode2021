@@ -13,14 +13,14 @@ $min = min($crabs);
 $max = max($crabs);
 foreach ($crabs as $crabidx => $crab) {
   for ($i = $min; $i < $max; $i++) {
-    $diff = abs($crab - $i);
-    $movediffs[$i][$crabidx] = ($diff * $diff + $diff) / 2;
+    $movediffs[$i][$crabidx] = abs($crab - $i);
   }
 }
 
-$movesums = array();
+$minfuel = PHP_INT_MAX;
 for ($i = $min; $i < $max; $i++) {
-  $movesums[$i] = array_sum($movediffs[$i]);
+  $diff = array_sum($movediffs[$i]);
+  $minfuel = ( $diff < $minfuel)  ? $diff : $minfuel ;
 }
 
-printf("Minimum fuel usage is: %d\n", min($movesums));
+printf("Minimum fuel usage is: %d\n", $minfuel);
